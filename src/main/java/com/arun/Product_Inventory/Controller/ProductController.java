@@ -47,5 +47,19 @@ public class ProductController {
     public void decreaseProductQuantity(@RequestParam int quantity,@PathVariable int id){
         service.decreaseProductQuantity(id, quantity);
     }
-    
+
+    @GetMapping("/products/category")
+    public List<Product> getProductByCategory(@RequestParam String category){
+        return service.getProductByCategory(category);
+    }
+
+    @GetMapping("/products/price")
+    public List<Product> getProductByPrice(@RequestParam("max") double price){
+        return service.getProductByPrice(price);
+    }
+
+    @GetMapping("/products/quantity")
+    public List<Product> getProductByLowQuantity(@RequestParam int quantity){
+        return service.getProductByLowQuantity(quantity);
+    }
 }

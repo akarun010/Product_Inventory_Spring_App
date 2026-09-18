@@ -58,4 +58,16 @@ public class ProductService {
             }
         }
     }
+
+    public List<Product> getProductByCategory(String category) {
+        return dao.findByCategory(category);
+    }
+
+    public List<Product> getProductByPrice(double price) {
+        return dao.findByPriceLessThanEqual(price);
+    }
+
+    public List<Product> getProductByLowQuantity(int quantity) {
+        return dao.findByQuantityLessThan(quantity);
+    }
 }
