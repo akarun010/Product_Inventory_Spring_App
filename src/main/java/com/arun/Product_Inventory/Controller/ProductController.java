@@ -47,4 +47,5 @@ public class ProductController {
     public void decreaseProductQuantity(@RequestParam int quantity,@PathVariable int id){
         service.decreaseProductQuantity(id, quantity);
     }
+    
 }

@@ -26,39 +26,36 @@ public class ProductService {
     }
 
     public void updateProduct(int id, Product product) {
-        Optional<Product> optionalProduct = dao.findAll().stream().filter(p -> p.getId() == id).findFirst();
-        if(optionalProduct.isPresent()){
-            Product product1 = optionalProduct.get();
-            product1.setId(product.getId());
-            product1.setName(product.getName());
-            product1.setDescription(product.getDescription());
-            product1.setCategory(product.getCategory());
-            product1.setPrice(product.getPrice());
-            product1.setQuantity(product.getQuantity());
-            dao.save(product1);
-        }
+        Product product1 = dao.findById(id).orElseThrow(() -> new RuntimeException("Product Is Not Available In The Server"));
+        product1.setId(product.getId());
+        product1.setName(product.getName());
+        product1.setDescription(product.getDescription());
+        product1.setCategory(product.getCategory());
+        product1.setPrice(product.getPrice());
+        product1.setQuantity(product.getQuantity());
+        dao.save(product1);
     }
 
     public void deleteProduct(int id) {
-        Optional<Product> optionalProduct = dao.findAll().stream().filter(p -> p.getId() == id).findFirst();
-        optionalProduct.ifPresent(product -> dao.delete(product));
+        Product product = dao.findById(id).orElseThrow(() -> new RuntimeException("Product Is Not Available In The Server"));
+        dao.delete(product);
     }
 
     public void increaseProductQuantity(int id, int quantity) {
-        Optional<Product> optionalProduct = dao.findAll().stream().filter(p -> p.getId() == id).findFirst();
-        if(optionalProduct.isPresent()){
-            Product product1 = optionalProduct.get();
-            product1.setQuantity(product1.getQuantity() + quantity);
-            dao.save(product1);
+        Product product = dao.findById(id).orElseThrow(() -> new RuntimeException("Product Is Not Available In The Server"));
+        if(quantity > 0){
+            product.setQuantity(product.getQuantity() + quantity);
+            dao.save(product);
         }
     }
 
     public void decreaseProductQuantity(int id, int quantity) {
-        Optional<Product> optionalProduct = dao.findAll().stream().filter(p -> p.getId() == id).findFirst();
-        if(optionalProduct.isPresent()){
-            Product product1 = optionalProduct.get();
-            product1.setQuantity(product1.getQuantity() - quantity);
-            dao.save(product1);
+        Product product = dao.findById(id).orElseThrow(() -> new RuntimeException("Product Is Not Available In The Server"));
+        if(quantity > 0){
+            if(product.getQuantity() - quantity >= 0){
+                product.setQuantity(product.getQuantity() - quantity);
+                dao.save(product);
+            }
         }
     }
 }
